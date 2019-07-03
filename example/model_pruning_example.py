@@ -55,7 +55,7 @@ model_checkpoint_callback = callbacks.ModelCheckpoint(str(TRAIN_LOGS_FOLDER_PATH
 callbacks = [tensorboard_callback, model_complexity_param, model_checkpoint_callback]
 
 # Train the model
-FIRST_TRAIN_EPOCHS = 20
+FIRST_TRAIN_EPOCHS = 1
 BATCH_SIZE = 32
 STEPS_PER_EPOCH = len(x_train) // BATCH_SIZE
 
@@ -80,14 +80,14 @@ def finetune_model(my_model, initial_epoch, finetune_epochs):
 pruning = ridurre.KMeansFilterPruning(0.9,
                                       compile_model,
                                       finetune_model,
-                                      nb_finetune_epochs=5,
+                                      nb_finetune_epochs=1,
                                       maximum_pruning_percent=0.85,
-                                      maximum_prune_iterations=10,
+                                      maximum_prune_iterations=3,
                                       nb_trained_for_epochs=FIRST_TRAIN_EPOCHS)
 model, last_epoch_number = pruning.run_pruning(model)
 
 # Train again for a reasonable number of epochs (no always necessary)
-SECOND_TRAIN_EPOCHS = 20
+SECOND_TRAIN_EPOCHS = 1
 model.fit_generator(data_generator.flow(x_train, y_train, BATCH_SIZE),
                     epochs=last_epoch_number + SECOND_TRAIN_EPOCHS,
                     validation_data=(x_test, y_test),
