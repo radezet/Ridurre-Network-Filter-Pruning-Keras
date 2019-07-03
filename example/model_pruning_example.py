@@ -17,7 +17,7 @@ TRAIN_LOGS_FOLDER_PATH.mkdir()
 
 # Creating ResNet50 model
 # model = resnet.resnet_v1(input_shape=(32, 32, 3), depth=20, num_classes=10)
-model = ResNet50(input_shape=(32, 32, 3), classes=10)
+model = ResNet50(weights='None', input_shape=(32, 32, 3), classes=10)
 
 
 def compile_model(my_model):
